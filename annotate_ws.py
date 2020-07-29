@@ -20,11 +20,10 @@ def annotate(sentence, lower=True):
     if client is None:
         client = CoreNLPClient(default_annotators='ssplit,tokenize'.split(','))
     words, gloss, after = [], [], []
-    for s in client.annotate(sentence):
-        for t in s:
-            words.append(t.word)
-            gloss.append(t.originalText)
-            after.append(t.after)
+    for t in client.annotate(sentence).sentence[0].token:
+        words.append(t.word)
+        gloss.append(t.originalText)
+        after.append(t.after)
     if lower:
         words = [w.lower() for w in words]
     return {
